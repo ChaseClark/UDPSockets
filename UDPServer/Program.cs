@@ -19,15 +19,14 @@ namespace UDPServer
 
             try
             {
+                Console.WriteLine("My IP is... ");
+                PrintIPAddress();
+                Console.WriteLine();
+                Console.WriteLine($"My port is {port}");
+                Console.WriteLine();
+                Console.WriteLine();
                 while (true)
-                {                   
-                    Console.WriteLine("My IP is... ");
-                    PrintIPAddress();
-                    Console.WriteLine();
-                    Console.WriteLine($"My port is {port}");
-                    Console.WriteLine();
-                    Console.WriteLine();
-
+                {
                     Console.WriteLine("Waiting for client message...");
                     byte[] bytes = listener.Receive(ref groupEP);
 

@@ -28,7 +28,7 @@ namespace UDPClient
                 byte[] message = Encoding.ASCII.GetBytes(Console.ReadLine());
                 IPEndPoint ep = new IPEndPoint(ip, port);
                 s.SendTo(message, ep);
-                Console.WriteLine("Message sent to the broadcast address");
+                Console.WriteLine("Message sent to the server");
             }
         }
     }

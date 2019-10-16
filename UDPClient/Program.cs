@@ -14,21 +14,27 @@ namespace UDPClient
         {
             Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
 
-            Console.WriteLine("Enter server IP address:");
-            IPAddress ip = IPAddress.Parse(Console.ReadLine());
+            //Console.WriteLine("Enter server IP address:");
+            //IPAddress ip = IPAddress.Parse(Console.ReadLine());
 
-            Console.WriteLine("Enter port number:");
-            int port = Convert.ToInt32(Console.ReadLine());
+            //Console.WriteLine("Enter port number:");
+            //int port = Convert.ToInt32(Console.ReadLine());
 
+            IPAddress ip = IPAddress.Parse("10.0.0.12");
+            int port = 12345;
+            
+
+            // add try catch and comments
             Console.WriteLine("Type your message, followed by the enter key...");
-
-            //IPAddress ip = IPAddress.Parse("192.168.12.195");
             while (true)
             {
                 byte[] message = Encoding.ASCII.GetBytes(Console.ReadLine());
                 IPEndPoint ep = new IPEndPoint(ip, port);
                 s.SendTo(message, ep);
                 Console.WriteLine("Message sent to the server");
+                byte[] replyBytes = new byte[256];
+                s.Receive(replyBytes);
+                Console.WriteLine(Encoding.ASCII.GetString(replyBytes, 0, replyBytes.Length));
             }
         }
     }

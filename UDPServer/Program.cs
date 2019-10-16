@@ -11,11 +11,13 @@ namespace UDPServer
 {
     class Program
     {
+        // add comments
         private const int port = 12345;
         static void Main(string[] args)
         {
             UdpClient listener = new UdpClient(port);
             IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, port);
+            int count = 0;
 
             try
             {
@@ -29,9 +31,18 @@ namespace UDPServer
                 {
                     Console.WriteLine("Waiting for client message...");
                     byte[] bytes = listener.Receive(ref groupEP);
+                    string rec = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
 
                     Console.WriteLine($"Received message from {groupEP} :");
-                    Console.WriteLine($" {Encoding.ASCII.GetString(bytes, 0, bytes.Length)}");
+                    Console.WriteLine($" {rec}");
+
+                    // capitalize original message and send to client.
+                    //rec.ToUpper();
+                    //byte[] recBytes = Encoding.ASCII.GetBytes(rec);
+                    //listener.Send(recBytes, recBytes.Length, groupEP);
+                    byte[] replyMessage = Encoding.ASCII.GetBytes($"(Server) I have received {count} message(s).");
+                    listener.Send(replyMessage,replyMessage.Length, groupEP);
+                    count++;
                 }
             }
             catch (SocketException e)

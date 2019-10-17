@@ -17,7 +17,7 @@ namespace UDPServer
         {
             UdpClient listener = new UdpClient(port);
             IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, port);
-            int count = 0;
+            int count = 1;
 
             try
             {
@@ -33,16 +33,17 @@ namespace UDPServer
                     byte[] bytes = listener.Receive(ref groupEP);
                     string rec = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
 
+                    // print out received message
                     Console.WriteLine($"Received message from {groupEP} :");
                     Console.WriteLine($" {rec}");
 
-                    // capitalize original message and send to client.
-                    //rec.ToUpper();
-                    //byte[] recBytes = Encoding.ASCII.GetBytes(rec);
-                    //listener.Send(recBytes, recBytes.Length, groupEP);
+                    // send a response to the client
                     byte[] replyMessage = Encoding.ASCII.GetBytes($"(Server) I have received {count} message(s).");
                     listener.Send(replyMessage,replyMessage.Length, groupEP);
                     count++;
+
+                    // blank line
+                    Console.WriteLine();
                 }
             }
             catch (SocketException e)
@@ -55,6 +56,7 @@ namespace UDPServer
             }
         }
 
+        // Gets all ipv4 connections on this computer
         private static void PrintIPAddress()
         {
             foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())

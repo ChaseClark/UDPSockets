@@ -25,7 +25,7 @@ namespace UDPClient
             {
                 while (true)
                 {
-                    byte[] message = Encoding.ASCII.GetBytes(Console.ReadLine());
+                    byte[] message = Encoding.ASCII.GetBytes($"{Console.ReadLine()}");
                     IPEndPoint ep = new IPEndPoint(ip, port);
                     s.SendTo(message, ep);
                     Console.WriteLine("Message sent to the server");

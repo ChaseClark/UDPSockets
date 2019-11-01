@@ -17,8 +17,6 @@ namespace UDPServer
         {
             UdpClient listener = new UdpClient(port);
             IPEndPoint groupEP = new IPEndPoint(IPAddress.Any, port);
-            int count = 1;
-
             try
             {
                 Console.WriteLine("My IP is... ");
@@ -27,20 +25,19 @@ namespace UDPServer
                 Console.WriteLine($"My port is {port}");
                 Console.WriteLine();
                 Console.WriteLine();
+                Console.WriteLine("Waiting for client message...");
                 while (true)
                 {
-                    Console.WriteLine("Waiting for client message...");
                     byte[] bytes = listener.Receive(ref groupEP);
                     string rec = Encoding.ASCII.GetString(bytes, 0, bytes.Length);
 
                     // print out received message
                     Console.WriteLine($"Received message from {groupEP} :");
-                    Console.WriteLine($" {rec}");
+                    Console.WriteLine($"(client){rec}");
 
                     // send a response to the client
-                    byte[] replyMessage = Encoding.ASCII.GetBytes($"(Server) I have received {count} message(s).");
+                    byte[] replyMessage = Encoding.ASCII.GetBytes($"(server){Console.ReadLine()}");
                     listener.Send(replyMessage,replyMessage.Length, groupEP);
-                    count++;
 
                     // blank line
                     Console.WriteLine();
@@ -52,7 +49,7 @@ namespace UDPServer
             }
             finally
             {
-                listener.Close();
+                //listener.Close();
             }
         }
 
